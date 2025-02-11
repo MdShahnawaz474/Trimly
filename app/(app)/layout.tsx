@@ -11,7 +11,14 @@ import {
   Share2Icon,
   UploadIcon,
   ImageIcon,
+  Github,
+  LucideTwitter,
+ 
+  LinkedinIcon,
+ 
 } from "lucide-react";
+import Image from "next/image";
+import Footer from "@/components/footer";
 
 const sidebarItems = [
   { href: "/home", icon: LayoutDashboardIcon, label: "Home Page" },
@@ -39,6 +46,7 @@ export default function AppLayout({
   };
 
   return (
+    <div>
     <div className="drawer lg:drawer-open">
       <input
         id="sidebar-drawer"
@@ -49,7 +57,7 @@ export default function AppLayout({
       />
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
-        <header className="w-full bg-base-200">
+        <header className=" bg-black sticky top-0 backdrop-blur-0  border-b z-10">
           <div className="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex-none lg:hidden">
               <label
@@ -61,9 +69,11 @@ export default function AppLayout({
             </div>
             <div className="flex-1">
               <Link href="/" onClick={handleLogoClick}>
-                <div className="btn btn-ghost normal-case text-2xl font-bold tracking-tight cursor-pointer">
-                  Cloudinary Showcase
-                </div>
+              <div>
+              <span className="bg-gradient-to-r text-2xl font-extrabold from-teal-400 to-blue-500 bg-clip-text text-transparent hover:from-teal-500 hover:to-blue-600 transition-all duration-300 hover:scale-105 filter hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">
+                 Trimly
+            </span>
+            </div>
               </Link>
             </div>
             <div className="flex-none flex items-center space-x-4">
@@ -71,11 +81,13 @@ export default function AppLayout({
                 <>
                   <div className="avatar">
                     <div className="w-8 h-8 rounded-full">
-                      <img
+                      <Image
                         src={user.imageUrl}
                         alt={
                           user.username || user.emailAddresses[0].emailAddress
                         }
+                        width={32}  
+                        height={32} 
                       />
                     </div>
                   </div>
@@ -94,7 +106,7 @@ export default function AppLayout({
           </div>
         </header>
         {/* Page content */}
-        <main className="flex-grow">
+        <main className="flex-grow bg-black">
           <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 my-8">
             {children}
           </div>
@@ -102,7 +114,7 @@ export default function AppLayout({
       </div>
       <div className="drawer-side">
         <label htmlFor="sidebar-drawer" className="drawer-overlay"></label>
-        <aside className="bg-base-200 w-64 h-full flex flex-col">
+        <aside className="bg-black border-r-2 border-neutral-800 w-64 h-full flex flex-col">
           <div className="flex items-center justify-center py-4">
             <ImageIcon className="w-10 h-10 text-primary" />
           </div>
@@ -137,6 +149,32 @@ export default function AppLayout({
           )}
         </aside>
       </div>
+      
+    </div>
+    
+    <footer className="footer footer-center bg-base-200 text-base-content rounded pt-3 ">
+    <nav className="mt-1">
+      <div className="grid grid-flow-col gap-4">
+        <Link href="https://github.com/MdShahnawaz474">
+       <Github size={28} strokeWidth={2.5} />
+        </Link>
+        <Link href="/">
+
+        <LucideTwitter size={28} strokeWidth={2.5} />
+          </Link>
+
+          <Link href="/">
+
+          <LinkedinIcon size={28} strokeWidth={2.5} />
+          </Link>
+
+
+      </div>
+    </nav>
+    <aside>
+      <p className="mb-1 -mt-10 ">Copyright © {new Date().getFullYear()} - All right reserved by Md Shahnawaz</p>
+    </aside>
+  </footer>
     </div>
   );
 }
