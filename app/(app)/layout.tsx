@@ -15,10 +15,9 @@ import {
   LucideTwitter,
  
   LinkedinIcon,
- 
 } from "lucide-react";
 import Image from "next/image";
-import Footer from "@/components/footer";
+
 
 const sidebarItems = [
   { href: "/home", icon: LayoutDashboardIcon, label: "Home Page" },
