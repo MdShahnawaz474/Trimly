@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useClerk, useUser } from "@clerk/nextjs";
@@ -13,11 +13,9 @@ import {
   ImageIcon,
   Github,
   LucideTwitter,
- 
   LinkedinIcon,
 } from "lucide-react";
 import Image from "next/image";
-
 
 const sidebarItems = [
   { href: "/home", icon: LayoutDashboardIcon, label: "Home Page" },
@@ -34,7 +32,13 @@ export default function AppLayout({
   const pathname = usePathname();
   const router = useRouter();
   const { signOut } = useClerk();
-  const { user } = useUser();
+  const { isLoaded, isSignedIn, user } = useUser();
+
+  useEffect(() => {
+    if (isLoaded && !isSignedIn) {
+      router.push("/sign-in");
+    }
+  }, [isLoaded, isSignedIn, router]);
 
   const handleLogoClick = () => {
     router.push("/");
@@ -44,8 +48,15 @@ export default function AppLayout({
     await signOut();
   };
 
+  if (!isLoaded || !isSignedIn) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
   return (
-    <div>
     <div className="drawer lg:drawer-open">
       <input
         id="sidebar-drawer"
@@ -55,8 +66,7 @@ export default function AppLayout({
         onChange={() => setSidebarOpen(!sidebarOpen)}
       />
       <div className="drawer-content flex flex-col">
-        {/* Navbar */}
-        <header className=" bg-black sticky top-0 backdrop-blur-0  border-b z-10">
+        <header className="bg-black sticky top-0 backdrop-blur-0 border-b z-10">
           <div className="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex-none lg:hidden">
               <label
@@ -68,11 +78,11 @@ export default function AppLayout({
             </div>
             <div className="flex-1">
               <Link href="/" onClick={handleLogoClick}>
-              <div>
-              <span className="bg-gradient-to-r text-2xl font-extrabold from-teal-400 to-blue-500 bg-clip-text text-transparent hover:from-teal-500 hover:to-blue-600 transition-all duration-300 hover:scale-105 filter hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">
-                 Trimly
-            </span>
-            </div>
+                <div>
+                  <span className="bg-gradient-to-r text-2xl font-extrabold from-teal-400 to-blue-500 bg-clip-text text-transparent hover:from-teal-500 hover:to-blue-600 transition-all duration-300 hover:scale-105 filter hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">
+                    Trimly
+                  </span>
+                </div>
               </Link>
             </div>
             <div className="flex-none flex items-center space-x-4">
@@ -82,11 +92,9 @@ export default function AppLayout({
                     <div className="w-8 h-8 rounded-full">
                       <Image
                         src={user.imageUrl}
-                        alt={
-                          user.username || user.emailAddresses[0].emailAddress
-                        }
-                        width={32}  
-                        height={32} 
+                        alt={user.username || user.emailAddresses[0].emailAddress}
+                        width={32}
+                        height={32}
                       />
                     </div>
                   </div>
@@ -104,8 +112,7 @@ export default function AppLayout({
             </div>
           </div>
         </header>
-        {/* Page content */}
-        <main className="flex-grow bg-black">
+        <main className="flex-grow bg-black pb-24">
           <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 my-8">
             {children}
           </div>
@@ -148,32 +155,35 @@ export default function AppLayout({
           )}
         </aside>
       </div>
-      
-    </div>
-    
-    <footer className="footer footer-center bg-base-200 text-base-content rounded pt-3 ">
-    <nav className="mt-1">
-      <div className="grid grid-flow-col gap-4">
-        <Link href="https://github.com/MdShahnawaz474">
-       <Github size={28} strokeWidth={2.5} />
-        </Link>
-        <Link href="/">
-
-        <LucideTwitter size={28} strokeWidth={2.5} />
-          </Link>
-
-          <Link href="/">
-
-          <LinkedinIcon size={28} strokeWidth={2.5} />
-          </Link>
-
-
-      </div>
-    </nav>
-    <aside>
-      <p className="mb-1 -mt-10 ">Copyright © {new Date().getFullYear()} - All right reserved by Md Shahnawaz</p>
-    </aside>
-  </footer>
+      <footer className="fixed bottom-0 left-0 right-0 bg-black border-t border-neutral-800 py-4 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
+          <div className="flex items-center space-x-4 mb-2 md:mb-0">
+            <Link href="https://github.com/MdShahnawaz474" className="text-neutral-400 hover:text-white transition-colors">
+              <Github className="h-5 w-5" />
+            </Link>
+            <Link href="/" className="text-neutral-400 hover:text-white transition-colors">
+              <LucideTwitter className="h-5 w-5" />
+            </Link>
+            <Link href="/" className="text-neutral-400 hover:text-white transition-colors">
+              <LinkedinIcon className="h-5 w-5" />
+            </Link>
+          </div>
+          <div className="text-center md:text-right">
+            <p className="text-neutral-400 text-sm">
+              Created by{" "}
+              <Link 
+                href="https://github.com/MdShahnawaz474" 
+                className="text-primary hover:text-primary/80 transition-colors"
+              >
+                MD Shahnawaz
+              </Link>
+            </p>
+            <p className="text-neutral-500 text-xs mt-1">
+              © {new Date().getFullYear()} All rights reserved
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

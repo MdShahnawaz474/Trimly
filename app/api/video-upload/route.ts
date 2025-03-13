@@ -21,10 +21,13 @@ interface CloudinaryUploadResult {
 }
 
 export async function POST(request: NextRequest) {
+    const {userId} = auth()
 
+    if (!userId) {
+        return NextResponse.json({error: "Unauthorized"}, {status: 401})
+    }
 
     try {
-
         //todo to check user
 
     if(
@@ -67,6 +70,7 @@ export async function POST(request: NextRequest) {
                 uploadStream.end(buffer)
             }
         )
+        // @ts-ignore
         const video = await prisma.video.create({
             data: {
                 title,
@@ -75,6 +79,7 @@ export async function POST(request: NextRequest) {
                 originalSize: originalSize,
                 compressedSize: String(result.bytes),
                 duration: result.duration || 0,
+                clerkId: userId
             }
         })
         return NextResponse.json(video)
