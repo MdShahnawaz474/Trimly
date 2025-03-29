@@ -38,7 +38,7 @@ function VideoUpload() {
         } catch (error) {
             console.log(error)
             // notification for failure
-        } finally{
+        } finally{  
             setIsUploading(false)
         }
 

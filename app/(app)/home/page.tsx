@@ -59,7 +59,7 @@ function Home() {
         <div className="container mx-auto p-4 h-screen">
           <h1 className="text-2xl font-bold mb-4">Videos</h1>
           {videos.length === 0 ? (
-            <div className="text-center text-lg text-gray-500 flex items-center justify-center h-full">
+            <div className="text-center text-lg text-gray-500 flex items-center justify-center h-3">
               No videos available
             </div>
           ) : (

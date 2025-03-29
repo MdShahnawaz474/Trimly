@@ -21,7 +21,7 @@ export default function Page() {
               identityPreviewText: "text-white",
               identityPreviewEditButton: "text-blue-400 hover:text-blue-300 transition-colors",
               formFieldInputShowPasswordButton: "text-neutral-400 hover:text-neutral-300"
-            },
+            },  
             layout: {
               socialButtonsPlacement: "bottom"
             }

@@ -14,13 +14,18 @@ import {
   Github,
   LucideTwitter,
   LinkedinIcon,
+  PlaneIcon,
+  Plane,
+  LockIcon,
 } from "lucide-react";
 import Image from "next/image";
+import { label } from "framer-motion/client";
 
 const sidebarItems = [
   { href: "/home", icon: LayoutDashboardIcon, label: "Home Page" },
   { href: "/social-share", icon: Share2Icon, label: "Social Share" },
   { href: "/video-upload", icon: UploadIcon, label: "Video Upload" },
+  {href:"/plans",icon:LockIcon, label:"Plans"}
 ];
 
 export default function AppLayout({
@@ -57,7 +62,7 @@ export default function AppLayout({
   }
 
   return (
-    <div className="drawer lg:drawer-open">
+    <div className="drawer lg:drawer-open  text-white">
       <input
         id="sidebar-drawer"
         type="checkbox"
@@ -98,12 +103,12 @@ export default function AppLayout({
                       />
                     </div>
                   </div>
-                  <span className="text-sm truncate max-w-xs lg:max-w-md">
+                  <span className="text-sm truncate max-w-xs lg:max-w-md text-white">
                     {user.username || user.emailAddresses[0].emailAddress}
                   </span>
                   <button
                     onClick={handleSignOut}
-                    className="btn btn-ghost btn-circle"
+                    className="btn btn-ghost btn-circle text-white"
                   >
                     <LogOutIcon className="h-6 w-6" />
                   </button>
@@ -161,10 +166,12 @@ export default function AppLayout({
             <Link href="https://github.com/MdShahnawaz474" className="text-neutral-400 hover:text-white transition-colors">
               <Github className="h-5 w-5" />
             </Link>
-            <Link href="/" className="text-neutral-400 hover:text-white transition-colors">
+            <Link href="https://x.com/Ahankhan474" passHref className="text-neutral-400 hover:text-white transition-colors">
               <LucideTwitter className="h-5 w-5" />
             </Link>
-            <Link href="/" className="text-neutral-400 hover:text-white transition-colors">
+
+            
+            <Link href="https://www.linkedin.com/in/md-shahnawaz-a053a122a/" className="text-neutral-400 hover:text-white transition-colors">
               <LinkedinIcon className="h-5 w-5" />
             </Link>
           </div>
@@ -173,7 +180,7 @@ export default function AppLayout({
               Created by{" "}
               <Link 
                 href="https://github.com/MdShahnawaz474" 
-                className="text-primary hover:text-primary/80 transition-colors"
+                className="text-white"
               >
                 MD Shahnawaz
               </Link>

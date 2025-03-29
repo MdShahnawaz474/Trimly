@@ -76,14 +76,14 @@ const socialFormats = {
 
 
     return (
-        <div className="container mx-auto p-4 max-w-4xl">
+        <div className="container mx-auto p-4 max-w-4xl text-white">
           <h1 className="text-3xl font-bold mb-6 text-center">
             Social Media Image Creator
           </h1>
 
-          <div className="card">
+          <div className="card text-white">
             <div className="card-body">
-              <h2 className="card-title mb-4">Upload an Image</h2>
+              <h2 className="card-title mb-4 ">Upload an Image</h2>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Choose an image file</span>
@@ -103,10 +103,10 @@ const socialFormats = {
 
               {uploadedImage && (
                 <div className="mt-6">
-                  <h2 className="card-title mb-4">Select Social Media Format</h2>
+                  <h2 className="card-title mb-4 text-white">Select Social Media Format</h2>
                   <div className="form-control">
-                    <select
-                      className="select select-bordered w-full"
+                    <select 
+                      className="select select-bordered w-full text-white"
                       value={selectedFormat}
                       onChange={(e) =>
                         setSelectedFormat(e.target.value as SocialFormat)
