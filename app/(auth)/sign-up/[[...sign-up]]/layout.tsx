@@ -7,7 +7,7 @@ export default  function layout({
     children: React.ReactNode;
   }>) {
     return (
-      <div className='h-screen w-full rounded-md  bg-black relative flex flex-col items-center justify-center antialiased'>
+      <div>
          <BackgroundBeams/>
          {children}
       </div>

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useClerk, useUser } from "@clerk/nextjs";
+import { ClerkProvider, useClerk, useUser } from "@clerk/nextjs";
 import {
   LogOutIcon,
   MenuIcon,
@@ -25,7 +25,7 @@ const sidebarItems = [
   { href: "/home", icon: LayoutDashboardIcon, label: "Home Page" },
   { href: "/social-share", icon: Share2Icon, label: "Social Share" },
   { href: "/video-upload", icon: UploadIcon, label: "Video Upload" },
-  {href:"/plans",icon:LockIcon, label:"Plans"}
+  // {href:"/plans",icon:LockIcon, label:"Plans"}
 ];
 
 export default function AppLayout({
@@ -62,6 +62,8 @@ export default function AppLayout({
   }
 
   return (
+      // <ClerkProvider>
+    
     <div className="drawer lg:drawer-open  text-white">
       <input
         id="sidebar-drawer"
@@ -192,5 +194,6 @@ export default function AppLayout({
         </div>
       </footer>
     </div>
+    // </ClerkProvider>
   );
 }

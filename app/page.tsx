@@ -1,13 +1,22 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 
 export default function Redirect() {
-  const router = useRouter();
+    const router = useRouter();
+  const { isSignedIn, isLoaded } = useAuth();
 
   useEffect(() => {
-    router.push("/home");
-  }, [router]);
+    if (!isLoaded) return; // wait until auth state is loaded
+
+    if (isSignedIn) {
+      router.push("/home");
+    } else {
+      router.push("/landing");
+    }
+  }, [isSignedIn, isLoaded, router]);
+
 
   return (   <div className='flex flex-col justify-center items-center h-screen'> 
     <div>
