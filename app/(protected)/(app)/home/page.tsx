@@ -98,7 +98,7 @@ function Home() {
     const [searchTerm, setSearchTerm] = useState('')
     const [viewMode, setViewMode] = useState('grid')
     const [sortBy, setSortBy] = useState('recent')
-    
+    console.log("API KEY:", process.env.CLOUDINARY_API_KEY)
     const fetchVideos = useCallback(async () => {
         try {
             const response = await axios.get("/api/videos")

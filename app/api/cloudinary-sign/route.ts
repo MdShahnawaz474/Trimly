@@ -13,6 +13,20 @@ export async function GET(request: NextRequest){
     const timestamp = Math.round(Date.now() / 1000)
     const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET || ''
     const apiSecret = process.env.CLOUDINARY_API_SECRET || ''
+    const apiKey = process.env.CLOUDINARY_API_KEY || ''
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || ''
+
+    if(!apiKey || !apiSecret || !cloudName){
+        return NextResponse.json({
+            error: 'Missing Cloudinary environment variables',
+            details: {
+                CLOUDINARY_API_KEY: !!apiKey,
+                CLOUDINARY_API_SECRET: !!apiSecret,
+                NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: !!cloudName,
+                CLOUDINARY_UPLOAD_PRESET: uploadPreset ? true : 'optional'
+            }
+        }, { status: 500 })
+    }
 
     const paramsToSign: Record<string, string | number> = { timestamp }
     if(uploadPreset){
@@ -32,8 +46,8 @@ export async function GET(request: NextRequest){
     return NextResponse.json({
         timestamp,
         signature,
-        apiKey: process.env.CLOUDINARY_API_KEY,
-        cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+        apiKey,
+        cloudName,
         uploadPreset
     })
 }
