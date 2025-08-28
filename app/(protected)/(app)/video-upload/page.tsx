@@ -25,20 +25,42 @@ function VideoUpload() {
         }
 
         setIsUploading(true)
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("title", title);
-        formData.append("description", description);
-        formData.append("originalSize", file.size.toString());
 
         try {
-            const response = await axios.post("/api/video-upload", formData)
-            // check for 200 response
+            // 1) Get signature
+            const signRes = await axios.get("/api/cloudinary-sign")
+            const { signature, timestamp, apiKey, cloudName, uploadPreset } = signRes.data
+
+            // 2) Upload straight to Cloudinary
+            const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`
+            const uploadForm = new FormData()
+            uploadForm.append("file", file)
+            uploadForm.append("api_key", apiKey)
+            uploadForm.append("timestamp", String(timestamp))
+            if (uploadPreset) uploadForm.append("upload_preset", uploadPreset)
+            uploadForm.append("signature", signature)
+
+            const cloudinaryRes = await fetch(uploadUrl, {
+                method: "POST",
+                body: uploadForm
+            })
+            if (!cloudinaryRes.ok) throw new Error("Cloudinary upload failed")
+            const cloudinaryData = await cloudinaryRes.json()
+
+            // 3) Save metadata
+            await axios.post("/api/videos", {
+                title,
+                description,
+                publicId: cloudinaryData.public_id,
+                originalSize: file.size,
+                compressedSize: cloudinaryData.bytes,
+                duration: cloudinaryData.duration || 0
+            })
+
             router.push("/")
         } catch (error) {
             console.log(error)
-            // notification for failure
-        } finally{  
+        } finally {
             setIsUploading(false)
         }
 
